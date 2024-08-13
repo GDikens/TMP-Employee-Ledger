@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: Tharanga Man Power - Employee Managment System Open API Specification
+  description: |-
+    This is Employee Management System which enables users to manage employee records, salary payments and generate reports.
+  contact:
+    email: dinethkariyawasam@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: https://tharangamp.ems.io/api/v1
+paths:
+  /employee/{employeeId}:
+    put:
+      tags:
+        - Employee
+      summary: Update an existing employee
+      description: Updates an existing employee record
+      operationId: updateEmployeeRecordById
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          description: ID of the employee to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Employee not found
+        '422':
+          description: Validation exception
+    get:
+      tags:
+        - Employee
+      summary: Retrieve an existing employee
+      description: Retrieve an existing employee record
+      operationId: getEmployeeRecordById
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          description: ID of the employee to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Employee not found
+        '422':
+          description: Validation exception
+  /employee:
+    post:
+      tags:
+        - Employee
+      summary: Create a new employee
+      description: Creates a new employee record
+      operationId: addEmployeeRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: number
+        fullName:
+          type: string
+        dateofBirth:
+          type: string
+        nic:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        address:
+          type: string
+        contactNumber:
+          type: string
+        departmentId:
+          type: number
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+        createdDatetime:
+          type: string
+        updatedDatetime:
+          type: string
+    Department:
+      type: object
+      properties:
+        id:
+          type: number
+        departmentName:
+          type: string
